@@ -2,38 +2,48 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Un pequeño intento</title>
+<title>Un encuentro</title>
 
 <style>
 body {
     margin: 0;
     height: 100vh;
-    background: radial-gradient(circle at top, #1e293b, #020617);
+    background: url("fondo.jpg") center bottom / cover no-repeat fixed;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Segoe UI', sans-serif;
-    color: #e5e7eb;
+    font-family: "Segoe UI", sans-serif;
     overflow: hidden;
 }
 
+/* Capa suave para lectura */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.55);
+    z-index: 0;
+}
+
 .container {
-    text-align: center;
-    max-width: 380px;
-    padding: 40px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 24px;
+    position: relative;
+    z-index: 2;
+    max-width: 420px;
+    padding: 44px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 28px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-    animation: fade 1.2s ease;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+    text-align: center;
+    color: #e5e7eb;
+    animation: fadeIn 1.2s ease;
 }
 
 .text {
     font-size: 1.05rem;
-    line-height: 1.7;
-    margin-bottom: 25px;
+    line-height: 1.8;
+    margin-bottom: 22px;
     opacity: 0;
-    transition: opacity 1s ease;
+    transition: opacity 1.2s ease;
 }
 
 .text.show {
@@ -41,65 +51,163 @@ body {
 }
 
 button {
-    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    background: linear-gradient(135deg, #7aa2f7, #a5c7ff);
     border: none;
-    padding: 12px 26px;
-    border-radius: 30px;
-    font-size: 0.9rem;
+    padding: 11px 28px;
+    border-radius: 26px;
+    font-size: 0.85rem;
     cursor: pointer;
     color: #020617;
+    margin-top: 10px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(56,189,248,0.4);
+    transform: scale(1.04);
+    box-shadow: 0 8px 25px rgba(165,199,255,0.4);
 }
 
-@keyframes fade {
-    from { opacity: 0; transform: translateY(20px); }
+.final {
+    display: none;
+    margin-top: 10px;
+    animation: fadeIn 1.5s ease;
+}
+
+.heart {
+    font-size: 3.2rem;
+    animation: pulse 1.6s infinite;
+}
+
+.bear {
+    font-size: 3.5rem;
+    margin-bottom: 8px;
+}
+
+.restart {
+    margin-top: 12px;
+    background: transparent;
+    border: 1px solid rgba(229,231,235,0.4);
+    color: #e5e7eb;
+}
+
+.restart:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+/* Corazones flotando siempre */
+.floating-heart {
+    position: absolute;
+    font-size: 1.2rem;
+    color: rgba(147,197,253,0.9);
+    animation: floatUp linear infinite;
+    pointer-events: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(100vh) scale(0.7);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(-10vh) scale(1.15);
+        opacity: 1;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<div class="overlay"></div>
+
 <div class="container">
+
     <div class="text show" id="t1">
-        Todo intento tiene un resultado.
+        La historia comienza cuando dos personas
     </div>
 
     <div class="text" id="t2">
-        Y aunque no siempre lo sabemos…
+        que ni siquiera planearan conocerse
     </div>
 
     <div class="text" id="t3">
-        yo siento que este será positivo.
+        se encuentran en el instante menos esperado,
     </div>
 
     <div class="text" id="t4">
-        Ten un gran día 🌤️<br>
-        No olvides comer<br>
-        y tomar agüita 💧
+        pero en el momento indicado.
     </div>
 
-    <button onclick="next()">Continuar</button>
+    <div class="text" id="t5">
+        Y si Dios te quita a alguien
+        que nunca imaginaste perder,
+    </div>
+
+    <div class="text" id="t6">
+        también puede regalarte a alguien
+        que nunca imaginaste encontrar.
+    </div>
+
+    <div class="final" id="final">
+        <div class="heart">💙</div>
+        <div class="bear">🐻</div>
+        <button class="restart" onclick="restart()">Volver a empezar</button>
+    </div>
+
+    <button id="nextBtn" onclick="next()">Continuar</button>
 </div>
 
 <script>
 let step = 1;
+const totalTexts = 6;
 
 function next() {
     step++;
-    const nextText = document.getElementById("t" + step);
-    if (nextText) {
-        nextText.classList.add("show");
+    const text = document.getElementById("t" + step);
+
+    if (text) {
+        text.classList.add("show");
+    } else {
+        document.getElementById("final").style.display = "block";
+        document.getElementById("nextBtn").style.display = "none";
     }
 }
+
+function restart() {
+    step = 1;
+    for (let i = 1; i <= totalTexts; i++) {
+        document.getElementById("t" + i).classList.remove("show");
+    }
+    document.getElementById("t1").classList.add("show");
+    document.getElementById("final").style.display = "none";
+    document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+/* Corazones constantes */
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "floating-heart";
+    heart.innerHTML = "💙";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (5 + Math.random() * 4) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 9000);
+}, 650);
 </script>
 
 </body>
 </html>
+
 
 
