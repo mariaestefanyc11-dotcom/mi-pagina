@@ -1,84 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Un intento</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #0f172a, #020617);
-            font-family: 'Segoe UI', sans-serif;
-        }
+<meta charset="UTF-8">
+<title>Un pequeño intento</title>
 
-        .card {
-            background: rgba(255, 255, 255, 0.06);
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 360px;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-            color: #e5e7eb;
-            animation: fadeIn 1.2s ease;
-        }
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #1e293b, #020617);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    color: #e5e7eb;
+    overflow: hidden;
+}
 
-        .text {
-            font-size: 1.05rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            opacity: 0;
-            animation: appear 1.5s forwards;
-        }
+.container {
+    text-align: center;
+    max-width: 380px;
+    padding: 40px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 24px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    animation: fade 1.2s ease;
+}
 
-        button {
-            background: #38bdf8;
-            border: none;
-            color: #020617;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
+.text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
 
-        button:hover {
-            background: #0ea5e9;
-            transform: scale(1.05);
-        }
+.text.show {
+    opacity: 1;
+}
 
-        @keyframes fadeIn {
-            from { transform: translateY(15px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+button {
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    border: none;
+    padding: 12px 26px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #020617;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-        @keyframes appear {
-            to { opacity: 1; }
-        }
-    </style>
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(56,189,248,0.4);
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="card">
-        <div class="text" id="mensaje">
-            Todo intento tiene un resultado.<br>
-            Yo sé que este será positivo.<br><br>
-            Ten un gran día.<br>
-            No olvides comer y tomar agüita 💧
-        </div>
-
-        <button onclick="cambiar()">Continuar</button>
+<div class="container">
+    <div class="text show" id="t1">
+        Todo intento tiene un resultado.
     </div>
 
-    <script>
-        function cambiar() {
-            document.getElementById("mensaje").innerHTML =
-                "Nada más.<br>Solo un buen deseo 😊";
-        }
-    </script>
+    <div class="text" id="t2">
+        Y aunque no siempre lo sabemos…
+    </div>
+
+    <div class="text" id="t3">
+        yo siento que este será positivo.
+    </div>
+
+    <div class="text" id="t4">
+        Ten un gran día 🌤️<br>
+        No olvides comer<br>
+        y tomar agüita 💧
+    </div>
+
+    <button onclick="next()">Continuar</button>
+</div>
+
+<script>
+let step = 1;
+
+function next() {
+    step++;
+    const nextText = document.getElementById("t" + step);
+    if (nextText) {
+        nextText.classList.add("show");
+    }
+}
+</script>
 
 </body>
 </html>
+
 
